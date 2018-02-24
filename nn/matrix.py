@@ -20,6 +20,12 @@ class Matrix(object):
             s = s.strip() +" |\n"
         return "rows {}, cols {}\n{}".format(self.rows, self.cols, s)
 
+    def __getitem__(self, key):
+        return self.values[key]
+
+    def __setitem__(self, key, value):
+        self.values[key] = value
+
     def transpose(self):
         result = Matrix(self.cols, self.rows)
         for i in range(self.rows):
@@ -52,12 +58,15 @@ class Matrix(object):
         return
 
     def elementwise_subtract(self, m):
+        self.elementwise_map(lambda i, j, x: m.values[i][j] - x)
         return
 
     def elementwise_multiply(self, m):
+        self.elementwise_map(lambda i, j, x: m.values[i][j] * x)
         return
 
     def elementwise_divide(self, m):
+        self.elementwise_map(lambda i, j, x: m.values[i][j] / x)
         return
     
     def map(self, func):
@@ -74,7 +83,18 @@ class Matrix(object):
 
     @staticmethod
     def dot_product(a, b):
-        return
+        if a.rows != b.cols:
+            raise Exception("matrix a rows != matrix b columns")
+        
+        result = Matrix(a.rows, b.cols)
+        for i, c in enumerate(result.values):
+            for j, d in enumerate(result.values[i]):
+                # dot product of values in column
+                sum = 0
+                for k, e in enumerate(a.values[i]):
+                    sum += a.values[i][k] * b.values[k][j]
+                result.values[i][j] = sum
+        return result
 
     @staticmethod
     def from_list(l):
@@ -86,4 +106,6 @@ class Matrix(object):
 
     @staticmethod
     def clone(m):
-        return
+        result = Matrix(m.rows, m.cols)
+        result.elementwise_map(lambda i, j, x: m.values[i][j])
+        return result
