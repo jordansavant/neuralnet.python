@@ -36,6 +36,9 @@ class Matrix(object):
     def randomize(self):
         self.map(lambda x: random.randrange(0, 10))
         return
+    
+    def randomize_range(self, min, max):
+        self.map(lambda x: random.uniform(min, max))
 
     def scalar_add(self, n):
         self.map(lambda x: x + n)
@@ -83,8 +86,8 @@ class Matrix(object):
 
     @staticmethod
     def dot_product(a, b):
-        if a.rows != b.cols:
-            raise Exception("matrix a rows != matrix b columns")
+        if a.cols != b.rows:
+            raise Exception("matrix a columns != matrix b rows")
         
         result = Matrix(a.rows, b.cols)
         for i, c in enumerate(result.values):
