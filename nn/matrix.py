@@ -34,7 +34,7 @@ class Matrix(object):
         return result
 
     def randomize(self):
-        self.map(lambda x: random.randrange(0, 10))
+        self.map(lambda x: random.randrange(0, 1))
         return
     
     def randomize_range(self, min, max):
@@ -57,19 +57,19 @@ class Matrix(object):
         return
 
     def elementwise_add(self, m):
-        self.elementwise_map(lambda i, j, x: m.values[i][j] + x)
+        self.elementwise_map(lambda i, j, x: x + m.values[i][j])
         return
 
     def elementwise_subtract(self, m):
-        self.elementwise_map(lambda i, j, x: m.values[i][j] - x)
+        self.elementwise_map(lambda i, j, x: x - m.values[i][j])
         return
 
     def elementwise_multiply(self, m):
-        self.elementwise_map(lambda i, j, x: m.values[i][j] * x)
+        self.elementwise_map(lambda i, j, x: x * m.values[i][j])
         return
 
     def elementwise_divide(self, m):
-        self.elementwise_map(lambda i, j, x: m.values[i][j] / x)
+        self.elementwise_map(lambda i, j, x: x / m.values[i][j])
         return
     
     def map(self, func):
@@ -101,11 +101,18 @@ class Matrix(object):
 
     @staticmethod
     def from_list(l):
-        return
+        result = Matrix(len(l), 1)
+        for i, v in enumerate(l):
+            result.values[i][0] = l[i]
+        return result
 
     @staticmethod
     def to_list(m):
-        return
+        result = []
+        for i, c in enumerate(m.values):
+            for j, n in enumerate(m.values[i]):
+                result.append(m.values[i][j])
+        return result
 
     @staticmethod
     def clone(m):

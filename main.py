@@ -1,8 +1,13 @@
 from nn.matrix import Matrix
 from nn.neuralnet import NeuralNetwork
+import random
 
 # training XOR
 training_data = [
+    {
+        'inputs': [0.0, 0.0],
+        'targets': [0.0]
+    },
     {
         'inputs': [1.0, 0.0],
         'targets': [1.0]
@@ -14,45 +19,38 @@ training_data = [
     {
         'inputs': [1.0, 1.0],
         'targets': [0.0]
-    },
-    {
-        'inputs': [0.0, 0.0],
-        'targets': [0.0]
     }
 ]
 nn = NeuralNetwork(2, 2, 1, 0.1)
 
 # Train it
-for i in range(10000):
-    for d in training_data:
-        input_matrix = Matrix(2, 1)
-        input_matrix[0][0] = d['inputs'][0]
-        input_matrix[1][0] = d['inputs'][1]
-        target_matrix = Matrix(1, 1)
-        target_matrix[0][0] = d['targets'][0]
+for i in range(50000):
+    d = random.choice(training_data)
+    # d = training_data[i % 4]
+    input_matrix = Matrix(2, 1)
+    input_matrix[0][0] = d['inputs'][0]
+    input_matrix[1][0] = d['inputs'][1]
+    target_matrix = Matrix(1, 1)
+    target_matrix[0][0] = d['targets'][0]
 
-        nn.train(input_matrix, target_matrix)
+    nn.train(input_matrix, target_matrix)
 
 # Test it
-input_matrix = Matrix(2, 1)
-input_matrix[0][0] = 1.0
-input_matrix[1][0] = 0.0
-print(input_matrix, nn.feedforward(input_matrix))
+i = Matrix.from_list([1, 0])
+r = nn.feedforward(i)
+print(i, r)
 
-input_matrix = Matrix(2, 1)
-input_matrix[0][0] = 0.0
-input_matrix[1][0] = 1.0
-print(input_matrix, nn.feedforward(input_matrix))
+j = Matrix.from_list([0, 1])
+r = nn.feedforward(j)
+print(j, r)
 
-input_matrix = Matrix(2, 1)
-input_matrix[0][0] = 1.0
-input_matrix[1][0] = 1.0
-print(input_matrix, nn.feedforward(input_matrix))
+k = Matrix.from_list([1, 1])
+r = nn.feedforward(k)
+print(k, r)
 
-input_matrix = Matrix(2, 1)
-input_matrix[0][0] = 0.0
-input_matrix[1][0] = 0.0
-print(input_matrix, nn.feedforward(input_matrix))
+l = Matrix.from_list([0, 0])
+r = nn.feedforward(l)
+print(l, r)
 
 # nn = NeuralNetwork(2, 2, 1, 0.01)
 # print(nn)
