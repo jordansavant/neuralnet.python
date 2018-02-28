@@ -17,23 +17,14 @@ class NeuralNetwork(object):
         self.weights_ho = Matrix(self.output_nodes, self.hidden_nodes)
 
         # Get some random weights from -1 to 1
-        # self.weights_ih.randomize_range(-1, 1)
-        self.weights_ih.values[0][0] = 0.68
-        self.weights_ih.values[0][1] = -0.12
-        self.weights_ih.values[1][0] = -0.80
-        self.weights_ih.values[1][1] = 0.5
-        # self.weights_ho.randomize_range(-1, 1)
-        self.weights_ho.values[0][0] = 0.83
-        self.weights_ho.values[0][1] = -0.10
+        self.weights_ih.randomize_range(-1, 1)
+        self.weights_ho.randomize_range(-1, 1)
 
         # Create our biases
         self.bias_h = Matrix(self.hidden_nodes, 1)
         self.bias_o = Matrix(self.output_nodes, 1)
-        # self.bias_h.randomize_range(-1, 1) # need to check the original randomize function
-        self.bias_h.values[0][0] = 0.33
-        self.bias_h.values[1][0] = -0.33
-        # self.bias_o.randomize_range(-1, 1)
-        self.bias_o.values[0][0] = 0.75
+        self.bias_h.randomize_range(-1, 1) # need to check the original randomize function
+        self.bias_o.randomize_range(-1, 1)
     
     def __str__(self):
         s = "NeuralNetwork: input count {}, hidden count {}, output count {}, learning rate {}".format(self.input_nodes, self.hidden_nodes, self.output_nodes, self.learning_rate)
